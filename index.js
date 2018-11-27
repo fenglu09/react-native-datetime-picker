@@ -1,11 +1,7 @@
-// import * as ImageViewer from './ImageModule'
-// import { NativeModules, Platform } from 'react-native'
-
-// const { Pickerview } = NativeModules
-
 import {
-    NativeModules
+    NativeModules,
+    Platform
 } from 'react-native';
 const { DatePicker } = NativeModules
-
+DatePicker = Platform.OS == 'ios' ? {}: DatePicker;
 export default DatePicker;
