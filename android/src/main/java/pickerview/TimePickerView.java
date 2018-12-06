@@ -87,6 +87,36 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
         initWheelTime(timePickerView);
     }
 
+    //时间选择范围控制 start
+    private void checkWheelTime(Date date) {
+        if (Pickerview.minDate != null) {
+            if (date.before(Pickerview.minDate)) {
+                setWheelTime(Pickerview.minDate);
+            }
+        }
+        if (Pickerview.maxDate != null) {
+            if (date.after(Pickerview.maxDate)) {
+                setWheelTime(Pickerview.maxDate);
+            }
+        }
+    }
+
+    private void setWheelTime(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int seconds = calendar.get(Calendar.SECOND);
+        wheelTime.setPicker(year, month, day, hours, minute, seconds);
+    }
+
+    //时间选择范围控制 end
+
+
     private void initWheelTime(LinearLayout timePickerView) {
         wheelTime = new WheelTime(timePickerView, mPickerOptions.type, mPickerOptions.textGravity, mPickerOptions.textSizeContent);
         if (mPickerOptions.timeSelectChangeListener != null) {
@@ -96,6 +126,11 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
                     try {
                         Date date = WheelTime.dateFormat.parse(wheelTime.getTime());
                         mPickerOptions.timeSelectChangeListener.onTimeSelectChanged(date);
+
+                        //时间选择范围控制 start
+                        checkWheelTime(date);
+                        //时间选择范围控制 end
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
