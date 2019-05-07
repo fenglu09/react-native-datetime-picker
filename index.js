@@ -2,6 +2,7 @@ import {
     NativeModules,
     Platform
 } from 'react-native';
-let { DatePicker } = NativeModules
-DatePicker = Platform.OS == 'ios' ? {}: DatePicker;
+const { DatePicker: AndroidDatePicker } = NativeModules
+
+const DatePicker = Platform.OS == 'ios' ? {} : AndroidDatePicker;
 export default DatePicker;
